@@ -1,0 +1,31 @@
+<% 
+	var headContent = {
+%>
+
+<%
+};
+
+var bodyContent = {
+%>
+
+<div class="row" style="margin-right: 0px; margin-left: 0px; ">
+<div id="code"></div>
+</div>
+
+<script type="text/javascript">
+
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android÷’∂À
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios÷’∂À
+    if(isAndroid) {
+    	window.location.href="https://www.pgyer.com/fB6m";
+    }else {
+    	window.location.href="https://www.pgyer.com/E1kc";
+    }
+</script>
+
+<%}; %>
+
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%} %>

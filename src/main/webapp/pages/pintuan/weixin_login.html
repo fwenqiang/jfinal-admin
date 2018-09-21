@@ -1,0 +1,25 @@
+<% 
+	var headContent = {
+%>
+
+<%
+};
+
+var bodyContent = {
+%>
+
+<div class="row" style="margin-right: 0px; margin-left: 0px; ">
+<div id="code"></div>
+</div>
+
+<script type="text/javascript">
+//window.location.href="https://open.weixin.qq.com/connect/qrconnect?appid=wxbd0e351006b6ed95&redirect_uri=http%3a%2f%2fwww.iwjup.com%2fjfinal-admin-1.0%2fpintuan%2fapp%2fwxsnsoauth&response_type=code&scope=snsapi_login&state=${state}#wechat_redirect";
+
+window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx278d0cececc6696e&redirect_uri=http%3a%2f%2fadmin.iwjup.com%2fjfinal-admin-1.0%2fpintuan%2fapp%2fwxsnsoauth&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect";
+</script>
+
+<%}; %>
+
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%} %>

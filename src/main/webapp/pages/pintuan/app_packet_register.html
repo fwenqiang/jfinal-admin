@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+	<meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi">
+	<title>吾家优品</title>
+	<link rel="stylesheet" href="/app/common.css">
+
+    <link rel="stylesheet" href="/app/packet_register.css">
+</head>
+<body>
+    <div class="header" style="top:2rem;">
+        <h1 style="background:url('/app/packet_title.png') no-repeat center;background-size:10rem;"></h1>
+    </div>
+    <div class="packet_register">
+        <div class="user_infor">
+            <div class="img">
+                <img src="/app/packet_user_img.png" alt="" class="user_img">
+            </div>
+            <span class="name">安琪啦</span>
+        </div>
+        <div class="packet_con">
+
+           <form action="" class="infor_form">
+                <ul class="infor_list infor_list1" style="display:block;">
+                    <li>
+                        <input type="text" class="input_val  account_number" placeholder="输入数字+英文字母的账号名">
+                    </li>
+                    <li>
+                        <input type="text" class="input_val user_name" placeholder="请输入您的姓名">
+                    </li>
+                    <li>
+                        <span class="next_btn next_btn1">下一步</span>
+                    </li>
+                </ul>
+
+
+                <ul class="infor_list infor_list2" style="display:none;">
+                    <li>
+                        <input type="text" class="input_val phone_number" placeholder="输入您手机号码">
+                    </li>
+                    <li>
+                        <input type="text" class="input_val identifying_code_val" placeholder="请输验证码" style="text-align:left;" maxlength=6>
+                        <input type="button" class="identifying_code" value="获取验证码">
+                    </li>
+                    <li>
+                        <span class="next_btn next_btn2">马上领取现金红包</span>
+                    </li>
+                </ul>
+
+                <ul class="infor_list infor_list3" style="display:none;">
+                    <li>
+                        <input type="password" class="input_val password" placeholder="请输入6-20位字符加数字的密码">
+                    </li>
+                    <li>
+                        <input type="password" class="input_val re_password" placeholder="请确认密码">
+                    </li>
+                    <li>
+                        <span class="next_btn submit_btn">下一步</span>
+                    </li>
+                </ul>
+           </form>
+        </div>
+    </div>
+
+
+
+    <div class="shadow" style="display:none;">
+        <div class="back"></div>
+        <div class="text">
+            <span class="msg_title">
+               恭喜您成功升到
+            </span>
+            <span class="btn">确定</span>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/app/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/app/packet_register.js"></script>
+    <script type="text/javascript" src="/app/md5.js"></script>
+    <script type="text/javascript" src="/app/base64.js"></script>
+    <script type="text/javascript">
+	    $(function () {
+            var p_id = `${p_id}`;
+            var usr_nme=`${usr_nme}`;
+            var tit_url = `${tit_url}`;
+
+            // 请求接口测试路径
+            var postUrl = 'http://120.78.68.118/jfinal-admin-1.0/pintuan/app/';
+            //postUrl = 'http://116.62.189.213:9999/jfinal-admin-1.0/pintuan/app/';
+
+            // 加载用户头像姓名
+            loadUserInfor({'userImg': tit_url, 'userName': usr_nme});
+
+	      	// 关闭弹跳框
+	        $(".shadow .btn").click(function () {
+	            $(this).parents(".shadow").hide();
+	        });
+
+            // 姓名下的下一步
+            $(".next_btn1").click(function () {
+            	if (checkNullVal({el: '.account_number', msg: '账号不能为空'}) && checkNullVal({el: '.user_name', msg: '姓名不能为空'})) {
+                    $(".infor_list").hide();
+                    $(".infor_list2").show();
+            	}
+            });
+
+            
+            // 手机验证码
+            $(".identifying_code").click(function () {
+               var count = 60;
+               var $this = $(this);
+               var phone = $(".phone_number").val();
+               if (checkNullVal({el: '.phone_number', msg: '手机号不能为空'}) && checkPhone()) {
+	                setInterval(function () {
+		               	if (count >= 0) {
+			                $this.val('获取中 ('+ count +'s)');
+			                $this.attr("disabled", true);
+			                count--;
+		               	} else {
+		               		$this.val('获取验证码');
+		               		$this.attr("disabled", false);
+		               	}
+	                }, 1000);
+	                var pam = REQ_MESSAGE={"pho_no": phone, "ide_cde_typ": '1'};
+				    var reqMessage = encodeURIComponent(JSON.stringify(pam));
+				    var $usrImg = $('.userImg');
+				    $.ajax({
+				       type: "POST",
+				       url: postUrl + "sendIdentifyCode",
+				       data: "REQ_MESSAGE=" + reqMessage,
+				       success: function(reData){
+				          console.log(reData)
+				       }
+				    });
+               }
+            });
+
+
+            // 手机号的下一步
+            $(".next_btn2").click(function () {
+                if (checkNullVal({el: '.phone_number', msg: '手机号不能为空'}) && checkNullVal({el: '.identifying_code_val', msg: '验证码不能为空'})  && checkPhone()) {
+                    phone_number = $(".phone_number").val();
+                    identifying_code_val = $(".identifying_code_val").val();
+                    var $shadow = $(".shadow");
+                    var $msg_title = $shadow.find(".msg_title");
+                    var pam = REQ_MESSAGE={"pho_no": phone_number, "ide_cde": identifying_code_val, "ide_cde_typ": '1'};
+                    var reqMessage = encodeURIComponent(JSON.stringify(pam));
+                    $.ajax({
+                        type: "POST",
+                        url: postUrl + "checkIdentifyCode",
+                        data: "REQ_MESSAGE=" + reqMessage,
+                        success: function(reData){
+                            console.log( reData );
+                            if (reData.RSP_HEAD.TRAN_SUCCESS == 1) {
+                                identifying_code_id = reData.RSP_BODY.ide_id;
+                                $(".infor_list").hide();
+                                $(".infor_list3").show();
+                            } else {
+                                $shadow.show();
+                                $msg_title.html(reData.RSP_HEAD.ERROR_MESSAGE)
+                            }
+                        }
+                    })
+                }
+            });
+
+ 
+            // 密码的下一步去注册
+            $(".submit_btn").click(function () {
+                 if (checkNullVal({el: '.password', msg: '密码不能为空'}) && checkNullVal({el: '.re_password', msg: '请再次输入密码'}) && checkPassword() && reCheckPassword()) {
+                    var $shadow = $(".shadow");
+                    var $msg_title = $shadow.find(".msg_title");
+                    var b = new Base64();
+                    account_number = $(".account_number").val();
+                    user_name = $(".user_name").val();
+                    phone_number = $(".phone_number").val();
+                    identifying_code_val = $(".identifying_code_val").val();
+                    var passwordMd5Str = $.md5($(".password").val()).toUpperCase();
+                    var passwordBase64Str = b.encode(passwordMd5Str);
+              
+                    var re_passwordMd5Str = $.md5($(".re_password").val()).toUpperCase();
+                    var re_passwordBase64Str = b.encode(re_passwordMd5Str);
+                    var pam = REQ_MESSAGE={"p_id":p_id,"thd_id":account_number, 'usr_nme':user_name,"pho_no": phone_number, "ide_cde": identifying_code_val, "pwd": passwordBase64Str};
+                    var reqMessage = encodeURIComponent(JSON.stringify(pam));
+                    $.ajax({
+                        type: "POST",
+                        url: postUrl + "memberRegister",
+                        data: "REQ_MESSAGE=" + reqMessage,
+                        success: function(reData){
+                            console.log('-------reData------------')
+                            console.log(reData)
+                            console.log('-------reData------------')
+                            // console.log(passwordBase64Str)
+                            if (reData.RSP_HEAD.TRAN_SUCCESS == 1) {
+                                identifying_code_id = reData.RSP_BODY.ide_id;
+                                if(/android/i.test(navigator.userAgent)){
+                                    // 这是Android平台下浏览器
+                                    window.location.href="https://www.pgyer.com/fB6m";
+                                }
+
+                                if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){
+                                    //这是iOS平台下浏览器
+                                    window.location.href="https://www.apple.com/cn/today/?afid=p238%7C1G7ax4nyU-dc_mtid_18707vxu38484_pcrid_15970079998_&cid=aos-cn-kwba-brand";
+                                }
+                            } else {
+                                $shadow.show();
+                                $msg_title.html(reData.RSP_HEAD.ERROR_MESSAGE)
+                            }
+                        }
+                    })
+                 } 
+            });
+	    });
+    </script>
+</body>
+</html>
