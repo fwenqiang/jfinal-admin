@@ -208,5 +208,10 @@ public class ErrCode {
 	 * 转账金额大于余额
 	 */
 	public static final String TRANSFER_AMT_ERR = "PINTUAN001065";
+
+	/**
+	 * 用户状态异常
+	 */
+	public static final String LOGIN_USER_STATE_ERROR = "PINTUAN001066";
 	
 }

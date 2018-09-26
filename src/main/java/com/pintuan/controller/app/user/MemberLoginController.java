@@ -23,6 +23,8 @@ public class MemberLoginController extends BaseProjectController {
         Record user = userService.findUserByThdIdAndPwd(thd_id, pwd);
         if(null==user) {
         	throw new CoreException(ErrCode.LOGIN_ERROR);
+        }else if("0".equals(user.get("state"))){
+            throw new CoreException(ErrCode.LOGIN_USER_STATE_ERROR);
         }
         setResp(Fields.USER_IDENTIFY_KEY,user.get(Fields.USER_ID));
         returnJson();
