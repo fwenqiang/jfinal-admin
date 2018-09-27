@@ -196,24 +196,29 @@ public class DepositController extends BaseProjectController {
 		excel.createCell(Constants.SHEET1, 0, 1, "用户名");
 		excel.createCell(Constants.SHEET1, 0, 2, "手机号码");
 		excel.createCell(Constants.SHEET1, 0, 3, "提现金额(元)");
-		excel.createCell(Constants.SHEET1, 0, 4, "提现类型");
-		excel.createCell(Constants.SHEET1, 0, 5, "提现账号");
-		excel.createCell(Constants.SHEET1, 0, 6, "账号用户名");
-		excel.createCell(Constants.SHEET1, 0, 7, "银行类型");
-		excel.createCell(Constants.SHEET1, 0, 8, "开户分行");
-		excel.createCell(Constants.SHEET1, 0, 9, "申请时间");
+		excel.createCell(Constants.SHEET1, 0, 4, "手续费&个税(元)");
+		excel.createCell(Constants.SHEET1, 0, 5, "实际提现金额(元)");
+		excel.createCell(Constants.SHEET1, 0, 6, "提现类型");
+		excel.createCell(Constants.SHEET1, 0, 7, "提现账号");
+		excel.createCell(Constants.SHEET1, 0, 8, "账号用户名");
+		excel.createCell(Constants.SHEET1, 0, 9, "银行类型");
+		excel.createCell(Constants.SHEET1, 0, 10, "开户分行");
+		excel.createCell(Constants.SHEET1, 0, 11, "申请时间");
 	}
 	
 	private void createExcelItem(Excel excel,int row,Record record) {
+		Double actMoney = record.getDouble("amt")-record.getDouble("tar_amt");
 		excel.createCell(Constants.SHEET1, row, 0, row+"");
 		excel.createCell(Constants.SHEET1, row, 1, record.getStr("name"));
 		excel.createCell(Constants.SHEET1, row, 2, record.getStr("pho_no"));
 		excel.createCell(Constants.SHEET1, row, 3, record.get("amt")+"");
-		excel.createCell(Constants.SHEET1, row, 4, record.getStr("cn_dep_typ"));
-		excel.createCell(Constants.SHEET1, row, 5, record.getStr("acunt"));
-		excel.createCell(Constants.SHEET1, row, 6, record.getStr("usr_nme")+"");
-		excel.createCell(Constants.SHEET1, row, 7, record.getStr("bak_typ"));
-		excel.createCell(Constants.SHEET1, row, 8, record.getStr("bak_nme"));
-		excel.createCell(Constants.SHEET1, row, 9, record.get("crt_tme")+"");
+		excel.createCell(Constants.SHEET1, row, 4, record.get("tar_amt")+"");
+		excel.createCell(Constants.SHEET1, row, 5, actMoney+"");
+		excel.createCell(Constants.SHEET1, row, 6, record.getStr("cn_dep_typ"));
+		excel.createCell(Constants.SHEET1, row, 7, record.getStr("acunt"));
+		excel.createCell(Constants.SHEET1, row, 8, record.getStr("usr_nme")+"");
+		excel.createCell(Constants.SHEET1, row, 9, record.getStr("bak_typ"));
+		excel.createCell(Constants.SHEET1, row, 10, record.getStr("bak_nme"));
+		excel.createCell(Constants.SHEET1, row, 11, record.get("crt_tme")+"");
 	}
 }
