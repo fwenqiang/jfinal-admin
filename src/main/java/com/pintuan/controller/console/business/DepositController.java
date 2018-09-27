@@ -207,7 +207,10 @@ public class DepositController extends BaseProjectController {
 	}
 	
 	private void createExcelItem(Excel excel,int row,Record record) {
-		Double actMoney = record.getDouble("amt")-record.getDouble("tar_amt");
+		if(record==null) return;
+		BigDecimal amt = record.getBigDecimal("amt")==null?new BigDecimal(0):record.getBigDecimal("amt");
+		BigDecimal tar_amt = record.getBigDecimal("tar_amt")==null?new BigDecimal(0):record.getBigDecimal("tar_amt");
+		BigDecimal actMoney = amt.subtract(tar_amt);
 		excel.createCell(Constants.SHEET1, row, 0, row+"");
 		excel.createCell(Constants.SHEET1, row, 1, record.getStr("name"));
 		excel.createCell(Constants.SHEET1, row, 2, record.getStr("pho_no"));
