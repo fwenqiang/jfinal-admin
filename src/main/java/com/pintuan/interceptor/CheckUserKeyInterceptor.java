@@ -3,6 +3,7 @@ package com.pintuan.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.pintuan.base.CoreException;
+import com.pintuan.common.Constants;
 import com.pintuan.common.ErrCode;
 import com.pintuan.common.Fields;
 import com.pintuan.model.User;
@@ -33,6 +34,9 @@ public class CheckUserKeyInterceptor implements Interceptor {
 		}
 		User user = User.dao.findById(key);
 		Assert.notEmpty(user, ErrCode.USER_UNEXIST);
+		if(Constants.NEGATIVE_STATE.equals(user.get("state"))){ //被冻结
+			throw new CoreException(ErrCode.LOGIN_USER_STATE_ERROR);
+		}
 		controller.setAttribute(Fields.ATTR_USER_ENTITY, user);
 	}
 	

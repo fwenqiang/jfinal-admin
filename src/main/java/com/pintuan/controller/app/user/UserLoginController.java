@@ -2,6 +2,7 @@ package com.pintuan.controller.app.user;
 
 import com.jfinal.plugin.activerecord.Record;
 import com.pintuan.base.CoreException;
+import com.pintuan.common.Constants;
 import com.pintuan.common.ErrCode;
 import com.pintuan.common.Fields;
 import com.pintuan.service.UserService;
@@ -23,7 +24,7 @@ public class UserLoginController extends BaseProjectController {
         Record user = userService.findUser(phoneNo, pwd);
         if(null==user) {
         	throw new CoreException(ErrCode.LOGIN_ERROR);
-        }else if("0".equals(user.get("state"))){
+        }else if(Constants.NEGATIVE_STATE.equals(user.get("state"))){
             throw new CoreException(ErrCode.LOGIN_USER_STATE_ERROR);
         }
         setResp(Fields.USER_IDENTIFY_KEY,user.get(Fields.USER_ID));

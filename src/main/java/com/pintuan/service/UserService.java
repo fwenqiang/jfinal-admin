@@ -53,9 +53,8 @@ public class UserService extends BaseService {
 	 */
 	public Record findUserByThdIdAndPwd(String thd_id, String pwd) {
 		// System.out.println("pwd="+new Md5Utils().getMD5(Base64.decodeAsString(pwd)));
-		String sql = "select * from pt_user where thd_id=? and pwd=? and state=?";
-		Record record = Db.findFirst(sql, thd_id, new Md5Utils().getMD5(Base64.decodeAsString(pwd)),
-				Constants.ACCESS_STATE);
+		String sql = "select * from pt_user where thd_id=? and pwd=? ";
+		Record record = Db.findFirst(sql, thd_id, new Md5Utils().getMD5(Base64.decodeAsString(pwd)));
 		return record;
 	}
 
