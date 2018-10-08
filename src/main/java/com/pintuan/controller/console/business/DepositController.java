@@ -191,19 +191,21 @@ public class DepositController extends BaseProjectController {
 	}
 	
 	private void createExcelTitle(Excel excel) {
+		int index = 0;
 		excel.createRow(Constants.SHEET1, 0);
-		excel.createCell(Constants.SHEET1, 0, 0, "序号");
-		excel.createCell(Constants.SHEET1, 0, 1, "用户名");
-		excel.createCell(Constants.SHEET1, 0, 2, "手机号码");
-		excel.createCell(Constants.SHEET1, 0, 3, "提现金额(元)");
-		excel.createCell(Constants.SHEET1, 0, 4, "手续费&个税(元)");
-		excel.createCell(Constants.SHEET1, 0, 5, "实际提现金额(元)");
-		excel.createCell(Constants.SHEET1, 0, 6, "提现类型");
-		excel.createCell(Constants.SHEET1, 0, 7, "提现账号");
-		excel.createCell(Constants.SHEET1, 0, 8, "账号用户名");
-		excel.createCell(Constants.SHEET1, 0, 9, "银行类型");
-		excel.createCell(Constants.SHEET1, 0, 10, "开户分行");
-		excel.createCell(Constants.SHEET1, 0, 11, "申请时间");
+		excel.createCell(Constants.SHEET1, 0, index, "序号");
+		excel.createCell(Constants.SHEET1, 0, index++, "会员账号");
+		excel.createCell(Constants.SHEET1, 0, index++, "用户名");
+		excel.createCell(Constants.SHEET1, 0, index++, "手机号码");
+		excel.createCell(Constants.SHEET1, 0, index++, "提现金额(元)");
+		excel.createCell(Constants.SHEET1, 0, index++, "手续费&个税(元)");
+		excel.createCell(Constants.SHEET1, 0, index++, "实际提现金额(元)");
+		excel.createCell(Constants.SHEET1, 0, index++, "提现类型");
+		excel.createCell(Constants.SHEET1, 0, index++, "提现账号");
+		excel.createCell(Constants.SHEET1, 0, index++, "账号用户名");
+		excel.createCell(Constants.SHEET1, 0, index++, "银行类型");
+		excel.createCell(Constants.SHEET1, 0, index++, "开户分行");
+		excel.createCell(Constants.SHEET1, 0, index++, "申请时间");
 	}
 	
 	private void createExcelItem(Excel excel,int row,Record record) {
@@ -211,17 +213,19 @@ public class DepositController extends BaseProjectController {
 		BigDecimal amt = record.getBigDecimal("amt")==null?new BigDecimal(0):record.getBigDecimal("amt");
 		BigDecimal tar_amt = record.getBigDecimal("tar_amt")==null?new BigDecimal(0):record.getBigDecimal("tar_amt");
 		BigDecimal actMoney = amt.subtract(tar_amt);
-		excel.createCell(Constants.SHEET1, row, 0, row+"");
-		excel.createCell(Constants.SHEET1, row, 1, record.getStr("name"));
-		excel.createCell(Constants.SHEET1, row, 2, record.getStr("pho_no"));
-		excel.createCell(Constants.SHEET1, row, 3, record.get("amt")+"");
-		excel.createCell(Constants.SHEET1, row, 4, record.get("tar_amt")+"");
-		excel.createCell(Constants.SHEET1, row, 5, actMoney+"");
-		excel.createCell(Constants.SHEET1, row, 6, record.getStr("cn_dep_typ"));
-		excel.createCell(Constants.SHEET1, row, 7, record.getStr("acunt"));
-		excel.createCell(Constants.SHEET1, row, 8, record.getStr("usr_nme")+"");
-		excel.createCell(Constants.SHEET1, row, 9, record.getStr("bak_typ"));
-		excel.createCell(Constants.SHEET1, row, 10, record.getStr("bak_nme"));
-		excel.createCell(Constants.SHEET1, row, 11, record.get("crt_tme")+"");
+		int index = 0;
+		excel.createCell(Constants.SHEET1, row, index, row+"");
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("thd_id"));
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("name"));
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("pho_no"));
+		excel.createCell(Constants.SHEET1, row, index++, record.get("amt")+"");
+		excel.createCell(Constants.SHEET1, row, index++, record.get("tar_amt")+"");
+		excel.createCell(Constants.SHEET1, row, index++, actMoney+"");
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("cn_dep_typ"));
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("acunt"));
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("usr_nme")+"");
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("bak_typ"));
+		excel.createCell(Constants.SHEET1, row, index++, record.getStr("bak_nme"));
+		excel.createCell(Constants.SHEET1, row, index++, record.get("crt_tme")+"");
 	}
 }
